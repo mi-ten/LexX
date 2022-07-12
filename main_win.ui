@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -81,7 +81,7 @@
         <item>
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_5">
            <attribute name="title">
@@ -296,7 +296,26 @@
              </widget>
             </item>
             <item>
-             <widget class="QTableWidget" name="tableWidget_BigFolders"/>
+             <widget class="QTableWidget" name="tableWidget_BigFolders">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
+              <column>
+               <property name="text">
+                <string>Наименование</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Размер</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Путь</string>
+               </property>
+              </column>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -514,6 +533,9 @@
             </item>
             <item>
              <widget class="QTableWidget" name="tableWidget_BigFiles">
+              <property name="sortingEnabled">
+               <bool>true</bool>
+              </property>
               <column>
                <property name="text">
                 <string>Наименование</string>
@@ -522,6 +544,11 @@
               <column>
                <property name="text">
                 <string>Размер</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Путь</string>
                </property>
               </column>
              </widget>

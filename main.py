@@ -1,13 +1,14 @@
-from re import X
-import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-from platform import uname
-import psutil
-import main_win
 import math
 import os
+import sys
+from platform import uname
+
+import psutil
+from PyQt5 import QtWidgets
+from PyQt5.QtGui import *
+
+import main_win
+
 
 class ExampleApp(QtWidgets.QMainWindow, main_win.Ui_MainWindow):
     def __init__(self):
@@ -100,13 +101,15 @@ class ExampleApp(QtWidgets.QMainWindow, main_win.Ui_MainWindow):
         return "%s %s" % (s, size_name[i])
 
     def GetBigFiles(self):
-        self.tableWidget_BigFiles.set
+        # var = self.tableWidget_BigFiles.set
         if self.le_Mb.text() == "":
             if self.le_Gb.text() != "":
                 self.le_Mb.setText(str(round(int(self.le_Gb.text()) * 1024, 2)))
 
-        if self.tableWidget_BigFiles.count() > 0:
-            self.tableWidget_BigFiles.clear()
+        # if self.tableWidget_BigFiles.rowCount() > 0:
+        #     self.tableWidget_BigFiles.remo.clear()
+        for i in range(self.tableWidget_BigFiles.rowCount(), -1, -1):
+            self.tableWidget_BigFiles.removeRow(i)
 
         path = os.path.abspath(self.le_PuthDir.text())
         max_size = (int(round(int(self.le_Mb.text()))) * 1024) * 1024
@@ -119,7 +122,13 @@ class ExampleApp(QtWidgets.QMainWindow, main_win.Ui_MainWindow):
           
                         if size>max_size:
                             max_file = os.path.join( folder, file  )
-                            self.tableWidget_BigFiles.addItem("%s %s %s %s" % ("(", self.convert_size(size), ") -", max_file))
+                            rowPosition = self.tableWidget_BigFiles.rowCount()  # +++
+                            self.tableWidget_BigFiles.insertRow(rowPosition)
+                            self.tableWidget_BigFiles.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(file))
+                            self.tableWidget_BigFiles.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem(self.convert_size(size)))
+                            self.tableWidget_BigFiles.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(folder))
+                            # self.tableWidget_BigFiles.setItem(rowPosition, 3, QtWidgets.QTableWidgetItem(str(size)))
+                            # self.tableWidget_BigFiles.setItem(rowPosition, 1, QtWidgets.QTableWidgetItem("%s %s %s %s" % ("(", self.convert_size(size), ") -", max_file)))
                     else:
                         if self.checkBox_noFiles.isChecked():
                             self.tableWidget_BigFiles.addItem("%s %s" % ("( не доступен ) -", os.path.join( folder, file)))
@@ -138,8 +147,10 @@ class ExampleApp(QtWidgets.QMainWindow, main_win.Ui_MainWindow):
             if self.le_Gb_2.text() != "":
                 self.le_Mb_2.setText(str(round(int(self.le_Gb_2.text()) * 1024, 2)))
 
-        if self.tableWidget_BigFolders.count() > 0:
-            self.tableWidget_BigFolders.clear()
+        # if self.tableWidget_BigFolders.count() > 0:
+        #     self.tableWidget_BigFolders.clear()
+        for i in range(self.tableWidget_BigFolders.rowCount(), -1, -1):
+            self.tableWidget_BigFolders.removeRow(i)
 
         path = os.path.abspath(self.le_PuthDir_2.text())
         max_size = (int(round(int(self.le_Mb_2.text()))) * 1024) * 1024
@@ -149,7 +160,13 @@ class ExampleApp(QtWidgets.QMainWindow, main_win.Ui_MainWindow):
             if not os.path.isfile(f):
                 size = self.get_size(f)
                 if max_size < size:
-                    self.tableWidget_BigFolders.addItem("%s %s %s %s" % ("(", self.convert_size(size), ") -", f))
+                    rowPosition = self.tableWidget_BigFolders.rowCount()  # +++
+                    self.tableWidget_BigFolders.insertRow(rowPosition)
+                    self.tableWidget_BigFolders.setItem(rowPosition, 0, QtWidgets.QTableWidgetItem(filename))
+                    self.tableWidget_BigFolders.setItem(rowPosition, 1,
+                                                      QtWidgets.QTableWidgetItem(self.convert_size(size)))
+                    self.tableWidget_BigFolders.setItem(rowPosition, 2, QtWidgets.QTableWidgetItem(path))
+                    # self.tableWidget_BigFolders.addItem("%s %s %s %s" % ("(", self.convert_size(size), ") -", f))
 
     def get_info(self):
         model = QStandardItemModel()
